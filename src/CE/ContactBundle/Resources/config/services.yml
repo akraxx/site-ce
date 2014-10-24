@@ -1,0 +1,20 @@
+parameters:
+#    ce_contact.example.class: CE\ContactBundle\Example
+
+services:
+    ce.contact.admin.message:
+        class: CE\ContactBundle\Admin\MessageAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: Messages, label: Messages }
+        arguments: [null, CE\ContactBundle\Entity\Message, SonataAdminBundle:CRUD]
+    ce.contact.admin.category:
+        class: CE\ContactBundle\Admin\CategoryAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: Messages, label: Catégories }
+        arguments: [null, CE\ContactBundle\Entity\Category, SonataAdminBundle:CRUD]
+    ce.contact.admin.staff:
+        class: CE\ContactBundle\Admin\StaffAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: Utilisateurs, label: L'équipe }
+        arguments: [null, CE\ContactBundle\Entity\Staff, SonataAdminBundle:CRUD]
+

@@ -1,0 +1,11 @@
+ce_activity_homepage:
+    pattern:  /
+    defaults: { _controller: CEActivityBundle:Default:index }
+    
+ce_activity_category:
+    pattern:  /categorie/{id}
+    defaults: { _controller: CEActivityBundle:Default:category }
+    
+ce_activity_categories_sidebar:
+    pattern:  /categories/sidebar/{id}
+    defaults: { _controller: CEActivityBundle:Default:category, id = null }

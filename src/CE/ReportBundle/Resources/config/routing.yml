@@ -1,0 +1,9 @@
+ce_report_homepage:
+    pattern:  /
+    defaults: { _controller: CEReportBundle:Default:index }
+    
+ce_report_pagination:
+    pattern:  /{id}
+    defaults: { _controller: CEReportBundle:Default:page }
+    requirements:
+        id:  \d

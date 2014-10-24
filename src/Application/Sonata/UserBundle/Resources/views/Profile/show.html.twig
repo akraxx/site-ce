@@ -1,0 +1,54 @@
+{% extends "::base.html.twig" %}
+
+{% block title %} - Mon profil{% endblock %} 
+{% set active_page = "Mon profil" %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Mon profil</h3>
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Mes informations d'identifications <span class="label label-primary pull-right"><a href="{{ path('sonata_user_profile_edit_authentication') }}" style="color:white;">Modifier</a></span></h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-4 text-right"><b>Nom d'utilisateur :</b></div>
+                            <div class="col-lg-8">{{ app.user.username }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 text-right"><b>Email :</b></div>
+                            <div class="col-lg-8">{{ app.user.email }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Mes informations personnelles <span class="label label-primary pull-right"><a href="{{ path('sonata_user_profile_edit') }}" style="color:white;">Modifier</a></span></h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-4 text-right"><b>Prénom :</b></div>
+                            <div class="col-lg-8">{{ app.user.firstname }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 text-right"><b>Nom :</b></div>
+                            <div class="col-lg-8">{{ app.user.lastname }}</div>
+                        </div>   
+                        <div class="row">
+                            <div class="col-lg-4 text-right"><b>Téléphone :</b></div>
+                            <div class="col-lg-8">{{ app.user.phone }}</div>
+                        </div>    
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

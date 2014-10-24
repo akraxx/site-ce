@@ -1,0 +1,9 @@
+.idea
+nbproject
+dev
+/app/cache/prod
+/app/logs
+*.qual
+*.prod
+.svn
+/web/uploads

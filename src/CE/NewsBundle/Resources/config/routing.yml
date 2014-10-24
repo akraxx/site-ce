@@ -1,0 +1,25 @@
+ce_news_homepage:
+    pattern:  /
+    defaults: { _controller: CENewsBundle:Default:index }
+    
+ce_news_pagination:
+    pattern:  /{id}
+    defaults: { _controller: CENewsBundle:Default:page }
+    requirements:
+        id:  \d
+        
+ce_news_search:
+    pattern:  /recherche
+    defaults: { _controller: CENewsBundle:Default:search }
+
+ce_news_post:
+    pattern:  /item/{id}
+    defaults: { _controller: CENewsBundle:Default:post }
+    requirements:
+        id:  \d
+
+ce_news_comment_add:
+    pattern:  /commentaire/ajout
+    defaults: { _controller: CENewsBundle:Default:addComment }
+    requirements:
+        _method:  POST

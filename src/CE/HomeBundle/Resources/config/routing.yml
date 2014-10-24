@@ -1,0 +1,3 @@
+ce_home_homepage:
+    pattern:  /
+    defaults: { _controller: CEHomeBundle:Default:index }

@@ -1,0 +1,309 @@
+<?php
+
+namespace CE\NewsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Post
+ *
+ * @ORM\Table("ce_news_post")
+ * @ORM\Entity(repositoryClass="CE\NewsBundle\Entity\PostRepository")
+ */
+class Post
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message = "Ce champ ne peut pas être nul")
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activeComments", type="boolean")
+     */
+    private $activeComments = true;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="onTop", type="boolean")
+     */
+    private $onTop;
+    
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message = "Ce champ ne peut pas être nul")
+     * @Assert\Length(
+     *      min = "10",
+     *      minMessage = "Votre contenu doit faire au moins {{ limit }} caractères"
+     * )
+     * @ORM\Column(name="content", type="text")
+     */
+    private $content;
+
+    /**
+     * @var User $user
+     *  
+     * @ORM\ManyToOne(targetEntity="CE\UserBundle\Entity\User")
+     */
+    private $user;
+
+    /**
+     * @var \DateTime
+     *
+     * @Assert\DateTime(message = "Cette valeur n'est pas une date")
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+    
+    /**
+     * @var Media $icone
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"all"})
+     */
+    private $icone;
+    
+    /**
+10   * @ORM\OneToMany(targetEntity="CE\NewsBundle\Entity\Comment", mappedBy="post", cascade={"all"})
+11   */
+    private $comments;
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return Post
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+    
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Post
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \CE\UserBundle\Entity\User $user
+     * @return Post
+     */
+    public function setUser(\CE\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \CE\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set icone
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $icone
+     * @return Post
+     */
+    public function setIcone(\Application\Sonata\MediaBundle\Entity\Media $icone = null)
+    {
+        $this->icone = $icone;
+    
+        return $this;
+    }
+
+    /**
+     * Get icone
+     *
+     * @return \Application\Sonata\MediaBundle\Entity\Media 
+     */
+    public function getIcone()
+    {
+        return $this->icone;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Post
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+    
+    public function __toString() {
+        return $this->title . "";
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Post
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add comments
+     *
+     * @param \CE\NewsBundle\Entity\Comment $comments
+     * @return Post
+     */
+    public function addComment(\CE\NewsBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+    
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \CE\NewsBundle\Entity\Comment $comments
+     */
+    public function removeComment(\CE\NewsBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Set onTop
+     *
+     * @param boolean $onTop
+     * @return Post
+     */
+    public function setOnTop($onTop)
+    {
+        $this->onTop = $onTop;
+    
+        return $this;
+    }
+
+    /**
+     * Get onTop
+     *
+     * @return boolean 
+     */
+    public function getOnTop()
+    {
+        return $this->onTop;
+    }
+}

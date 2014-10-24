@@ -1,0 +1,7 @@
+<ul class="dropdown-menu">
+    <li><a href="{{ path('ce_activity_homepage') }}">Toutes les catégories</a></li>
+    <li class="divider"></li>
+    {% for category in categories %}
+        <li><a href="{{ path('ce_activity_category', {'id': category.id}) }}">{{ category.title }}</a></li>
+    {% endfor %}
+</ul>

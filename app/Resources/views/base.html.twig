@@ -1,0 +1,178 @@
+{% set title = "Comité d'Etablissement " %}
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+        <meta charset="ISO-8859-1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>{{ title }} {% block title %}{% endblock %}</title>
+
+    {% stylesheets 'css/*.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen">
+    {% endstylesheets %}
+    {% if random(1) == 0 %}
+        {% stylesheets 'css/theme/theme-0.css' filter="cssrewrite" %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" media="screen" />
+        {% endstylesheets %}
+    {% else %}
+        {% stylesheets 'css/theme/theme-1.css' filter="cssrewrite" %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" media="screen" />
+        {% endstylesheets %} 
+    {% endif %}
+    {% stylesheets 'font-awesome/css/*.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen">
+    {% endstylesheets %}
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('ce_home_homepage') }}">Comité d'établissement</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="{% block home_active %}{% endblock %}"><a href="{{ path('ce_home_homepage') }}">Accueil</a></li>
+                        <li class="{% block news_active %}{% endblock %}"><a href="{{ path('ce_news_homepage') }}">Actualités</a></li>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <li class="{% block reports_active %}{% endblock %}"><a href="{{ path('ce_report_homepage') }}">PVs</a></li>
+                        {% endif %}
+                        <li class="{% block announces_active %}{% endblock %}"><a href="{{ path('ce_announce_homepage') }}">Annonces</a>
+                        </li>
+                        <li class="dropdown {% block activity_active %}{% endblock %}">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Activités <b class="caret"></b></a>
+                            {{render(controller("CEActivityBundle:Default:dropDownMenu"))}}
+                        </li>
+                        <li class="{% block contact_active %}{% endblock %}"><a href="{{ path('ce_contact_homepage') }}">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte [ <b>{{ app.user.username }}</b> ]<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('sonata_user_profile_show') }}">Visualiser mon profil</a></li>
+                                    <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">Modifier ses informations d'identification</a></li>
+                                    <li><a href="{{ path('sonata_user_profile_edit') }}">Modifier ses informations personnelles</a></li>
+                                    <li><a href="{{ path('fos_user_change_password') }}">Changer de mot de passe</a></li>
+                                    <li><a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+                            <li><a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
+                        {% endif %}
+                        {% if is_granted("ROLE_ADMIN") %}
+                                <li><a href="{{ path('sonata_admin_redirect') }}">Admin</a></li>
+                        {% endif %}
+                                </ul>
+                            </div>
+                            <!-- /.navbar-collapse -->
+                        </div>
+                        <!-- /.container -->
+                    </nav>
+                    
+                    <div class="well container container-well">
+                            <div class="row">
+
+                                <div class="col-lg-12">
+                                                    {% for type, messages in app.session.flashBag.all %}
+                                                        {% for message in messages %}
+                                        <div class="alert alert-info alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                                                    {{ message|trans({}, 'FOSUserBundle') }}
+                                        </div>
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-lg-offset-3">
+                                        <img class="img-responsive" src="{{ asset('img/logo_lille.jpg') }}">
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-lg-12">
+                                        <ol class="breadcrumb">
+                                            <li><a href="{{ path('ce_home_homepage') }}">Accueil</a>
+                                            </li>
+                            {% if active_page is defined %}
+                                            <li class="active">{{ active_page }}</li>
+                            {% endif %}
+                                            </ol>
+                                        </div>
+
+                                    </div>
+
+
+                            {% block body %}
+                            {% endblock %}
+
+                                    <!-- /.container -->
+
+
+                                        <hr>
+
+                                        <footer>
+                                            <div class="row">
+                                                <div class="col-lg-12 text-right">
+                                                    <p>Copyright &copy; Comité d'établissement - Institut Catholique de Lille - 2014</p>
+                                                </div>
+                                            </div>
+                                        </footer>
+
+                                    </div>
+                                <!-- /.container -->
+
+                                
+                                <!-- JavaScript -->
+    {% javascripts 'js/*.js' %}
+                                <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+        <script type="text/javascript">
+            (function () {
+                var $frame = $('#effects');
+                var $wrap  = $frame.parent();
+
+                // Call Sly on frame
+                $frame.sly({
+                    horizontal: 1,
+                    itemNav: 'forceCentered',
+                    smart: 1,
+                    activateMiddle: 1,
+                    activateOn: 'click',
+                    mouseDragging: 1,
+                    touchDragging: 1,
+                    releaseSwing: 1,
+                    startAt: 3,
+                    scrollBar: $wrap.find('.scrollbar'),
+                    scrollBy: 1,
+                    speed: 300,
+                    elasticBounds: 1,
+                    easing: 'swing',
+                    dragHandle: 1,
+                    dynamicHandle: 1,
+                    clickBar: 1,
+
+                    // Buttons
+                    prev: $wrap.find('.prev'),
+                    next: $wrap.find('.next')
+                });
+            }());
+        </script>
+                                {{ tinymce_init() }}
+                            </body>
+
+                        </html>

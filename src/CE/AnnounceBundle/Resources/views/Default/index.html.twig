@@ -1,0 +1,107 @@
+{% extends "::base.html.twig" %}
+
+{% block title %} - Annonces{% endblock %} 
+{% set active_page = 'Les annonces' %}
+{% block announces_active %}active{% endblock %}
+{% block body %}
+
+<!-- Service Paragraphs -->
+
+<div class="row">
+
+    <div class="col-md-7">
+        <h2 class="page-header">Poster une annonce</h2>
+        {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <div class="row">
+            <div class="form-group col-lg-12">
+                <div class="alert alert-info alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    Vous devez être <a href="{{ path('fos_user_security_login') }}">connecté</a> pour poster une annonce.<br>
+                    Pas encore de compte? <a href="{{ path('fos_user_registration_register') }}">Enregistrez vous ici</a>              
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <form role="form" method="POST" action="{{ path('ce_announce_post') }}">
+            <div class="text-danger">{{ form_errors(form) }}</div>
+            <div class="row">
+                <div class="form-group col-lg-12">
+                    <label for="input1"><span class="text-danger">*</span> Titre</label>
+                    <input {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}disabled="disabled"{% endif %} type="text" required="required" name="{{ form.title.vars.full_name }}" class="form-control" id="{{ form.title.vars.id }}" placeholder="Votre titre" value="{{ form.title.vars.value }}">
+                    <div class="text-danger">{{ form_errors(form.title) }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12">
+                    <label for="input1"><span class="text-danger">*</span> Message</label>
+                    <textarea {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}disabled="disabled"{% endif %} rows="4" required="required" name="{{ form.content.vars.full_name }}" class="tinymce" id="{{ form.content.vars.id }}" placeholder="Votre message" value="{{ form.content.vars.value }}"></textarea>
+                    <div class="text-danger">{{ form_errors(form.content) }}</div>
+                </div>
+            </div>
+            <input type="hidden" name="{{ form._token.vars.full_name }}" class="form-control" id="{{ form._token.vars.id }}" value="{{ form._token.vars.value }}">
+            <div class="row">
+                <div class="form-group col-lg-12 text-center">
+                    <input type="submit" class="btn btn-primary" {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}disabled="disabled"{% endif %}>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-5">
+        <h2 class="page-header">Dernière annonce postée</h2>
+        {% if announces|length > 0 %}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ announces[0].title }} <span class="pull-right">Par : {% if announces[0].user.fullname|length > 1 %}{{ announces[0].user.fullname }}{% else %}{{ announces[0].user.username }}{% endif %}</span></h3>
+            </div>
+            <div class="panel-body">{{ announces[0].content|raw }}</div>
+
+            <div class="panel-footer text-right">Postée le : {{ announces[0].date|date('d-M-y H:i') }}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <a class="btn btn-primary" href="#annonces">En voir plus</a>
+            </div>
+        </div>
+        {% else %}
+        <h4 class="page-content">Soyez le premier à poster une annonce!</h4>
+        {% endif %}
+
+    </div>
+
+</div>
+<!-- /.row -->
+
+<!-- Service Tabs -->
+
+<div class="row" id="annonces">
+
+    <div class="col-lg-12">
+        <h2 class="page-header">Les annonces</h2>
+
+        <div class="row">
+            <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs col-lg-3">
+                    {% for announce in announces %}
+                        <li {% if loop.index == 1 %}class="active"{% endif %}><a href="#annonce-{{ announce.id }}" data-toggle="tab">{{ announce.title }}</a></li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content">
+                    {% for announce in announces %}
+                    <div class="tab-pane fade {% if loop.index == 1 %}in active{% endif %} col-lg-offset-3" style="padding-left: 20px;" id="annonce-{{ announce.id }}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{ announce.title }} <span class="pull-right">Par : {% if announce.user.fullname|length > 1 %}{{ announce.user.fullname }}{% else %}{{ announce.user.username }}{% endif %}</span></h3>
+                            </div>
+                            <div class="panel-body">{{ announce.content|raw }}</div>
+
+                            <div class="panel-footer text-right">Date de création de l'annonce : {{ announce.date|date('d-M-y H:i') }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+            <!-- /.row -->
+
+{% endblock %}

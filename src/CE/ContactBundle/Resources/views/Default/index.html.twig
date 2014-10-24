@@ -1,0 +1,103 @@
+{% extends "::base.html.twig" %}
+
+{% block title %} - Contact{% endblock %} 
+{% set active_page = 'Nous contacter' %}
+{% block contact_active %}active{% endblock %}
+{% block body %}
+<div class="row">
+
+    <div class="col-sm-8">
+        <h3>Restons en contact!</h3>
+        <p>Envoyez nous un message.</p>
+        <form role="form" method="POST" action="{{ path('ce_contact_homepage') }}">
+            <div class="row">
+                <div class="text-danger">{{ form_errors(form) }}</div>
+                <div class="form-group col-lg-4">
+                    <label for="input1"><span class="text-danger">*</span> Nom</label>
+                    <input type="text" required="required" name="{{ form.name.vars.full_name }}" class="form-control" id="{{ form.name.vars.id }}" placeholder="Votre nom" value="{{ form.name.vars.value }}">
+                    <div class="text-danger">{{ form_errors(form.name) }}</div>
+                </div>
+                <div class="form-group col-lg-4">
+                    <label for="input2"><span class="text-danger">*</span> Adresse e-mail</label>
+                    <input type="email" required="required" name="{{ form.email.vars.full_name }}" class="form-control" id="{{ form.email.vars.id }}" placeholder="Votre e-mail" value="{{ form.email.vars.value }}">
+                    <div class="text-danger">{{ form_errors(form.email) }}</div>
+                </div>
+                <div class="form-group col-lg-4">
+                    <label for="input3">Numéro de téléphone</label>
+                    <input type="phone" name="{{ form.phone.vars.full_name }}" class="form-control" id="{{ form.phone.vars.id }}" placeholder="Votre numéro de téléphone" value="{{ form.phone.vars.value }}">
+                    <div class="text-danger">{{ form_errors(form.phone) }}</div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group col-lg-4 text-right">
+                    <label for="{{ form.category.vars.id }}" class="control-label"><span class="text-danger">*</span> Catégorie</label>
+                </div>
+                <div class="form-group col-lg-8">
+                    <select name="{{ form.category.vars.full_name }}" id="{{ form.category.vars.id }}" class="form-control">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.title }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="text-danger">{{ form_errors(form.category) }}</div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group col-lg-12">
+                    <label for="input4"><span class="text-danger">*</span> Message</label>
+                    <textarea required="required" name="{{ form.message.vars.full_name }}" class="tinymce" rows="6" id="{{ form.message.vars.id }}" placeholder="Votre message" value="{{ form.message.vars.value }}"></textarea>
+                    <div class="text-danger">{{ form_errors(form.message) }}</div>
+                </div>
+                <input type="hidden" name="{{ form._token.vars.full_name }}" class="form-control" id="{{ form._token.vars.id }}" value="{{ form._token.vars.value }}">
+                <div class="form-group col-lg-12 text-center">
+                    <input type="hidden" name="save" value="contact">
+                    <input type="submit" class="btn btn-primary" value="Envoyer">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Comité d'établissement</h3>
+                <h4>de l'institut catholique de Lille</h4>
+                <hr>
+                <h5>{{ contactValues.adresse }}</h5>
+                <h5>{{ contactValues.ville_code_postal }}</h5>
+                <p><i class="fa fa-phone"></i> <abbr title="Téléphone">T</abbr>: {{ contactValues.telephone }}</p>
+                <p><i class="fa fa-envelope-o"></i> <abbr title="Email">E</abbr>: <a href="mailto:{{ contactValues.mail }}">{{ contactValues.mail }}</a></p>
+                <p><i class="fa fa-clock-o"></i> <abbr title="Horaires">H</abbr>: {{ contactValues.horaires_ouverture }}</p>
+                <ul class="list-unstyled list-inline list-social-icons">
+                    <li class="tooltip-social facebook-link"><a href="{{ contactValues.facebook }}" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+                    <li class="tooltip-social twitter-link"><a href="{{ contactValues.twitter }}" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>
+                    <li class="tooltip-social google-plus-link"><a href="{{ contactValues.googleplus }}" data-toggle="tooltip" data-placement="top" title="Google+"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <h3>L'équipe</h3>
+        <h4>de l'institut catholique de Lille</h4>
+        <div class="row" style="padding: 10px 20px 10px 20px;">
+            <div id="staff" class="carousel slide" data-ride="carousel">
+                        <!-- Wrapper for slides -->
+                <ol class="carousel-indicators" style="bottom: -30px">
+                    {% for member in staff %}
+                        <li data-target="#staff" data-slide-to="{{ loop.index0 }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for member in staff %}
+                        <div class="col-sm-12 well text-center item {% if loop.index == 1 %}active{% endif %}">
+                            <div class="text-center">
+                                <img src="{% path member.photo, 'small' %}" class="img-responsive" style="display: inline-block;">
+                            </div>
+                            <h3>{{ member.prenom }} {{ member.nom|upper }}</h3>
+                            <h4 class="text-right"><i>{{ member.role }}</i></h4>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</div><!-- /.row -->
+{% endblock %}

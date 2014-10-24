@@ -1,0 +1,22 @@
+.onecol{width:5.801104972%;}
+.twocol{width:14.364640883%;}
+.threecol{width:22.928176794%;}
+.fourcol{width:31.491712705%;}
+.fivecol{width:40.055248616%;}
+.sixcol{width:48.618784527%;}
+.sevencol{width:57.182320438000005%;}
+.eightcol{width:65.74585634900001%;}
+.ninecol{width:74.30939226%;}
+.tencol{width:82.87292817100001%;}
+.elevencol{width:91.436464082%;}
+.twelvecol{width:99.999999993%;}
+.onecol,.twocol,.threecol,.fourcol,.fivecol,.sixcol,.sevencol,.eightcol,.ninecol,.tencol,.elevencol,.twelvecol{position:relative;float:left;margin-left:2.762430939%;} 
+.first{margin-left:0;}
+.last{float:right;}
+.widget-title {-webkit-border-radius: 3px 0 0 3px;-moz-border-radius: 3px 0 0 3px;border-radius: 3px 0 0 3px;width: 115%;margin-left:-3px;}
+#banner-content,#banner-image{text-align:left;}
+.main-navigation ul{float:right;margin:0;}
+.site-title{text-align:left;}
+.wrap {width: 960px;padding:0 1%;}
+#page {min-width: 1000px;margin:0 auto;}
+.social_wrap{display:none;}

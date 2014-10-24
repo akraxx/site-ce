@@ -1,0 +1,15 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: 2011000915
+    database_user: 2011000915
+    database_password: q8fNDKMERtypLmJV
+    mailer_transport: smtp
+    mailer_host: smtp.gmail.com
+    mailer_port: 465
+    mailer_user: maximilien.marie@isen-lille.fr
+    mailer_password: -
+    locale: fr
+    secret: ThisTokenIsNotSoSecretChangeIt

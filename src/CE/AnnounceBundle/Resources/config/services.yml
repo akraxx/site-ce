@@ -1,0 +1,17 @@
+parameters:
+#    ce_announce.example.class: CE\AnnounceBundle\Example
+
+services:
+    ce.announce.admin.post:
+        class: CE\AnnounceBundle\Admin\PostAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: Annonces, label: Annonces }
+        arguments: [null, CE\AnnounceBundle\Entity\Post, CEAnnounceBundle:PostAdmin]
+        calls:
+          - [ setSecurityContext, [@security.context] ]
+          
+#    sonata.media.admin.media:
+#        class: Application\Sonata\MediaBundle\Admin\ORM\MediaAdmin
+#        tags:
+#          - { name: sonata.admin, manager_type: orm, group: Test, label: test }
+#        arguments: [null, Application\Sonata\MediaBundle\Entity\Media, SonataAdminBundle:CRUD, @sonata.media.pool]

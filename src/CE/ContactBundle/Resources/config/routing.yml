@@ -1,0 +1,9 @@
+ce_contact_homepage:
+    pattern:  /
+    defaults: { _controller: CEContactBundle:Default:index }
+    
+ce_contact_message:
+    pattern:  /message
+    defaults: { _controller: CEContactBundle:Default:message }
+    requirements:
+        _method:  POST

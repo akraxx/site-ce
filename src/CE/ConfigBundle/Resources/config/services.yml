@@ -1,0 +1,12 @@
+parameters:
+#    ce_config.example.class: CE\ConfigBundle\Example
+
+services:
+    ce.config:
+        class: CE\ConfigBundle\Service\CEConfig
+        arguments: [@doctrine.orm.entity_manager]
+    ce.config.admin.entries:
+        class: CE\ConfigBundle\Admin\EntriesAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: Divers, label: Configuration }
+        arguments: [null, CE\ConfigBundle\Entity\Entries, SonataAdminBundle:CRUD]

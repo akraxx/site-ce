@@ -1,0 +1,15 @@
+parameters:
+#    ce_user.example.class: CE\UserBundle\Example
+
+services:
+    test_user.form.handler.registration:
+        class: CE\UserBundle\Form\Handler\RegistrationFormHandler
+        arguments: ["@fos_user.registration.form", "@request", "@fos_user.user_manager", "@fos_user.mailer", "@fos_user.util.token_generator"]
+        scope: request
+        public: false
+
+    test_sonata.user.profile.form.type:
+        class: CE\UserBundle\Form\Type\ProfileType
+        arguments: [ %fos_user.model.user.class% ]
+        tags:
+            - { name: form.type, alias: sonata_user_profile_custom }

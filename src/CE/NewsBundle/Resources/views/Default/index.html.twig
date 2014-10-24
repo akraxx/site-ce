@@ -1,0 +1,36 @@
+{% extends "::base.html.twig" %}
+
+{% block title %} - Actualités{% endblock %} 
+{% set active_page = 'Les actualités du site' %}
+{% block news_active %}active{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+
+        {% for post in posts %}
+        <h1><a href="{{ path('ce_news_post', {'id': post.id }) }}">{{ post.title }}</a>
+        </h1>
+        <p class="lead">par <span class="text-info"><b>{% if post.user.fullname|length > 1 %}{{ post.user.fullname }}{% else %}{{ post.user.username }}{% endif %}</b></span>
+        </p>
+        <hr>
+        <p class="text-right"><i class="fa fa-clock-o"></i> Postée le {{ post.date|date('d M y à H:m') }}</p>
+        {% if post.icone is not null %}
+            <hr>
+            <a href="{{ path('ce_news_post', {'id': post.id }) }}">
+                <img src="{% path post.icone, 'icone_news_big' %}" class="img-responsive center-block">
+            </a>
+        {% endif %}
+        <hr>
+        <p>{{ post.content|truncatehtml(200, '<a class="btn btn-primary" href="' ~ path('ce_news_post', {'id': post.id }) ~ '"><i class="fa fa-angle-right"></i> En lire plus</a>')|raw }} </p>
+        <hr>
+        {% endfor %}
+
+        <div class="text-center">
+            {% include '::pagination.html.twig' with {'id': id, 'url': 'ce_news_pagination', 'nb_pages': nb_pages} only %}
+        </div>
+
+    </div>
+
+    {{render(controller("CENewsBundle:Default:rightMenu"))}}
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<div class="col-lg-4">
+    <div class="well">
+        <h4>Rechercher...</h4>
+        <form action="{{ path('ce_news_search') }}" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Mots clés..." name="recherche" value="{{ app.request.get('recherche') }}" >
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        <!-- /input-group -->
+    </div>
+    <!-- /well -->
+    <div class="well">
+        <h4>Les dernières actualités...</h4>
+        <div class="row">
+            <div class="col-lg-offset-1 col-lg-10">
+                <ul class="list-unstyled">
+                    {% for post in posts %}
+                        <li><a href="{{ path('ce_news_post', {'id': post.id }) }}">{{ post.title }} <span class="badge">{{ post.comments|length }}</span></a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

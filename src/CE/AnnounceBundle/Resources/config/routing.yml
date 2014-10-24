@@ -1,0 +1,10 @@
+ce_announce_homepage:
+    pattern:  /
+    defaults: { _controller: CEAnnounceBundle:Default:index }
+    
+ce_announce_post:
+    pattern:  /post
+    defaults: { _controller: CEAnnounceBundle:Default:post }
+    requirements:
+        _method:  POST
+

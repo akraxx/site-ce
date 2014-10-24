@@ -1,0 +1,7 @@
+<ul class="nav nav-stacked nav-pills">
+    <li class="{% if id is null %}active{% endif %}"><a href="{{ path('ce_activity_homepage') }}">Toutes les catégories</a></li>
+    <li class="divider"></li>
+    {% for category in categories %}
+        <li class="{% if id is defined and id == category.id %}active{% endif %}"><a href="{{ path('ce_activity_category', {'id': category.id}) }}">{{ category.title }}</a></li>
+    {% endfor %}
+</ul>

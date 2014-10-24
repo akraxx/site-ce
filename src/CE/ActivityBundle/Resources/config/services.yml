@@ -1,0 +1,14 @@
+parameters:
+#    ce_activity.example.class: CE\ActivityBundle\Example
+
+services:
+    ce.activity.admin.activity:
+        class: CE\ActivityBundle\Admin\ActivityAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: Activité, label: Activité }
+        arguments: [null, CE\ActivityBundle\Entity\Activity, SonataAdminBundle:CRUD]
+    ce.activity.admin.category:
+        class: CE\ActivityBundle\Admin\CategoryAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: Activité, label: Catégorie }
+        arguments: [null, CE\ActivityBundle\Entity\Category, SonataAdminBundle:CRUD]

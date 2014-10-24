@@ -1,0 +1,81 @@
+{% extends "::base.html.twig" %}
+
+{% block title %} - Activités{% endblock %} 
+{% set active_page = 'Les activités' %}
+{% block body %}
+<!-- Page Content -->
+
+<div class="row">
+    <div class="col-md-3 col-sm-4 sidebar">
+        {% if id is defined %}
+            {{render(controller("CEActivityBundle:Default:categoriesSidebar", {'id': id}))}}
+        {% else %}
+            {{render(controller("CEActivityBundle:Default:categoriesSidebar"))}}
+        {% endif %}
+    </div>
+
+    <div class="col-md-9 col-sm-8">
+        <h1 class="page-header">Les activités proposées
+            <small>Sous réserve des places disponibles</small>
+        </h1>
+
+        {% for activity in activities %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ activity.title }} <span class="label label-default pull-right"><a href="{{ path('ce_activity_category', {'id': activity.category.id}) }}" style="color:white;"><em>{{ activity.category.title }}</em></a></span></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 text-right"><b>Lieu</b></div>
+                        <div class="col-md-9">{{ activity.place }}</div>
+                    </div>
+                    {% if not activity.contactAdmin %}
+                        <div class="row">
+                            <div class="col-md-3 text-right"><b>Prix</b></div>
+                            <div class="col-md-9">
+                                {% set price = activity.price ~ ' €' %}
+                                {% if activity.price < 1 %}
+                                    {% set price = '<i>Gratuit</i>' %}
+                                {% endif %}
+                                {% if activity.hiddenPrice and not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                    Vous devez être <a href="{{ path('fos_user_security_login') }}">connecté</a> pour voir le prix de cette activité.
+                                {% else %}
+                                    {{ price|raw }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if activity.availableTickets > 0 %}
+                        <div class="row">
+                            <div class="col-md-3 text-right"><b>Places disponibles</b></div>
+                            <div class="col-md-9">
+                                {{ activity.availableTickets }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-3 text-right"><b>Commentaire</b></div>
+                        <div class="col-md-9">{{ activity.comment }}</div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    {% if activity.file is not null %}
+                        {% if activity.protectedFile and not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            Vous devez être <a href="{{ path('fos_user_security_login') }}">connecté</a> pour télécharger la pièce jointe.
+                        {% elseif activity.protectedFile and is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <a href="{{ path('sonata_media_download', {'id': activity.file|sonata_urlsafeid }) }}">Télécharger la pièce jointe.</a>
+                        {% else %}
+                            <a href="{% path activity.file, 'reference' %}">Télécharger la pièce jointe.</a>
+                        {% endif %}
+                    {% else %}
+                        Pas de pièce jointe.
+                    {% endif %}
+                    <span class="pull-right">Date d'enregistrement de l'activité : {{ activity.date|date('d-M-y H:i') }}</span></div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+<!-- /.row -->
+{% endblock %}

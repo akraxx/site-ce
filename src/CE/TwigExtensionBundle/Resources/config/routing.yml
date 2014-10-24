@@ -1,0 +1,3 @@
+ce_twig_extension_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: CETwigExtensionBundle:Default:index }

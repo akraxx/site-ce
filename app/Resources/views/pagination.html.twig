@@ -1,0 +1,9 @@
+<ul class="pagination">
+    <li {% if (id -1) < 1 %}class="disabled"{% endif %}><a href="{{ path(url, {'id': (id - 1) }) }}">&laquo;</a></li>
+    {% for i in 1..nb_pages %}
+        {% if i > 0 %}
+            <li {% if i == id %}class="active"{% endif %}><a href="{{ path(url, {'id': i }) }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+    <li {% if (id +1) > nb_pages %}class="disabled"{% endif %}><a href="{{ path(url, {'id': (id + 1) }) }}">&raquo;</a></li>
+</ul>

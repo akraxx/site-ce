@@ -1,0 +1,17 @@
+parameters:
+#    ce_news.example.class: CE\NewsBundle\Example
+
+services:
+    ce.news.admin.post:
+        class: CE\NewsBundle\Admin\PostAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: News, label: Actualité }
+        arguments: [null, CE\NewsBundle\Entity\Post, SonataAdminBundle:CRUD]
+        calls:
+          - [ setSecurityContext, [@security.context] ]
+          
+    ce.news.admin.comment:
+        class: CE\NewsBundle\Admin\CommentAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: News, label: Commentaires }
+        arguments: [null, CE\NewsBundle\Entity\Comment, SonataAdminBundle:CRUD]

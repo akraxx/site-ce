@@ -1,0 +1,9 @@
+parameters:
+#    ce_report.example.class: CE\ReportBundle\Example
+
+services:
+    ce.report.admin.report:
+        class: CE\ReportBundle\Admin\ReportAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: Divers, label: Rapports }
+        arguments: [null, CE\ReportBundle\Entity\Report, SonataAdminBundle:CRUD]

@@ -1,0 +1,32 @@
+{% extends "::base.html.twig" %}
+
+{% block title %} - Actualités - Recherche{% endblock %} 
+{% set active_page = 'Recherche dans les actualités' %}
+{% block news_active %}active{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Résultats de la recherche pour la chaîne : {{app.request.get('recherche') }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                {% for post in posts %}
+
+                    <h4 class="list-group-item-heading">{{ post.title }} <span class="pull-right"><i class="fa fa-clock-o"></i> Postée le {{ post.date|date('d M y à H:i') }} | <span class="badge">{{ post.comments|length }}</span> commentaire(s)</span></h4>
+                    <p class="list-group-item-text">
+                        {{ post.content|truncatehtml(200, '<a class="btn btn-primary" href="' ~ path('ce_news_post', {'id': post.id }) ~ '"><i class="fa fa-angle-right"></i> En lire plus</a>')|raw }}
+                    </p>
+                    {% if not loop.last %}
+                        <hr />
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{render(controller("CENewsBundle:Default:rightMenu"))}}
+</div>
+{% endblock %}

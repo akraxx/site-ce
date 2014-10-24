@@ -1,0 +1,114 @@
+.clearfix{
+	clear:both;
+}
+
+.cp-button{
+    background: none repeat scroll 0 0 #94DB81;
+    border-bottom: 4px solid #469630;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px 20px;
+    text-decoration: none;
+    text-shadow: 1px 1px #469630;
+	margin-top:1px;
+	display:block;
+}
+
+.cp-button:hover,
+.cp-button:focus{
+	color: #FFF;
+}
+
+.cp-button:active{
+	border-bottom: 1px solid #469630;
+	margin-top: 4px;
+}
+
+.cp-sidebar{
+	    background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 0 2px #A7A7A7;
+    margin-top: 20px;
+	margin-right: 20px;
+    padding: 20px;
+    text-align: center;
+    width: 150px;
+}
+
+.cp-sidebar > span {
+    color: #999999;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.sections-wrap input[type="text"],
+.sections-wrap select,
+.sections-wrap textarea{
+    width: 250px;
+}
+
+.sections-wrap{
+	width: 740px;
+	float:left;
+}
+
+.sections-wrap .section-title{
+	color: #232323;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+	background: #eeeeee;
+	border: 1px solid #DDDDDD;
+}
+
+.sections-wrap .form-table {
+    background: none repeat scroll 0 0 #F9F9F9;
+    border-collapse: collapse;
+    clear: both;
+	margin: 0;
+	border: 1px solid #e7e7e7;
+	border-top: 0;
+}
+
+.sections-wrap .section-title h3{
+	background: url("../img/pointer.png") no-repeat scroll 1px 10px transparent;
+    cursor: pointer;
+    float: left;
+    margin: 0 10px;
+    padding: 18px 0 18px 40px;
+    width: 75%;
+	font-weight: normal;
+}
+
+.sections-wrap .section-title h3.active{
+	background: url("../img/pointer.png") no-repeat scroll 0 -52px transparent;
+}
+
+.sections-wrap .section-title .button{
+	float: right;
+    font-weight: normal;
+    margin: 14px 10px;
+}
+
+.sections-wrap .form-table tr{
+	border-bottom: 1px solid #e7e7e7;
+}
+
+.sections-wrap .form-table th,
+.sections-wrap .form-table td{
+	padding: 20px 10px;
+}
+
+.sections-wrap .section{
+	margin: 20px 0;
+}
+
+.sections-wrap small {
+    color: #999999;
+    display: block;
+    float: right;
+    width: 200px;
+}

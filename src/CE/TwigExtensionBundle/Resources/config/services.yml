@@ -1,0 +1,7 @@
+parameters:
+#    ce_twig_extension.example.class: CE\TwigExtensionBundle\Example
+services:
+    truncatehtml.twig.extension:
+        class: CE\TwigExtensionBundle\Extension\TruncateHtmlExtension
+        tags:
+            - { name: twig.extension }

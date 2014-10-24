@@ -1,0 +1,266 @@
+{% extends '::base.html.twig' %}
+
+{% block home_active %}active{% endblock %}
+{% block title %}- Accueil{% endblock %}
+
+{% block body %}
+<div class="tabbable tabs-top">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#derniers" data-toggle="tab">Derniers ajouts</a></li>
+        <li><a href="#top" data-toggle="tab">A voir!</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="derniers">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h2 class="page-header">Actualités</h2>
+                    {% if lastNews|length > 0 %}
+                    <div id="last-news" class="carousel slide" data-ride="carousel">
+                        <!-- Wrapper for slides -->
+                        <ol class="carousel-indicators">
+                            {% for post in lastNews %}
+                                <li data-target="#last-news" data-slide-to="{{ loop.index0 }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for post in lastNews %}
+                                <div class="item {% if loop.index == 1 %}active{% endif %}">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><a href="{{ path('ce_news_post', {'id': post.id }) }}">{{ post.title }}</a></h3>
+                                        </div>
+                                            <div class="panel-body">{{ post.content|truncatehtml(200, '<a class="btn btn-primary" href="' ~ path('ce_news_post', {'id': post.id }) ~ '"><i class="fa fa-angle-right"></i> En lire plus</a>')|raw }}</div>
+                                        <div class="panel-footer text-right">Postée le {{ post.date|date('d M y à H:m') }} par {% if post.user.fullname|length > 1 %}{{ post.user.fullname }}{% else %}{{ post.user.username }}{% endif %}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                        <p>Aucune actualité n'a été postée.</p>
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-4">
+                    <h2 class="page-header">
+                        <div class="row">
+                            <div class="col-md-12 text-left">Annonces <span class="pull-right"><a href="{{ path('ce_announce_homepage') }}" class="btn btn-primary">Poster une annonce</a></span></div>
+                        </div>
+                    </h2>
+                    {% if lastAnnounces|length > 0 %}
+                    <div id="last-announces" class="carousel slide" data-ride="carousel">
+                        <!-- Wrapper for slides -->
+                        <ol class="carousel-indicators">
+                            {% for announce in lastAnnounces %}
+                                <li data-target="#last-announces" data-slide-to="{{ loop.index0 }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for announce in lastAnnounces %}
+                                <div class="item {% if loop.index == 1 %}active{% endif %}">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><a href="{{ path('ce_announce_homepage') }}">{{ announce.title }}</a></h3>
+                                        </div>
+                                        <div class="panel-body">{{ announce.content|truncatehtml(200, '<a class="btn btn-primary" href="' ~ path('ce_announce_homepage' ) ~ '"><i class="fa fa-angle-right"></i> En lire plus</a>')|raw }}</div>
+                                        <div class="panel-footer text-right">Postée le {{ announce.date|date('d M y à H:m') }} par {% if announce.user.fullname|length > 1 %}{{ announce.user.fullname }}{% else %}{{ announce.user.username }}{% endif %}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                        <p>Aucune annonce n'a été postée.</p>
+                    {% endif %}
+                    
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="page-header">Activités</h2>
+                    {% if lastActivities|length > 0 %}
+                    <div id="last-activities" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for activity in lastActivities %}
+                                <li data-target="#last-activities" data-slide-to="{{ loop.index0 }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for activity in lastActivities %}
+                                <div class="item {% if loop.index == 1 %}active{% endif %}">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><a href="{{ path('ce_activity_homepage') }}">{{ activity.title }}</a></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-3 text-right"><b>Lieu</b></div>
+                                                <div class="col-md-9">{{ activity.place }}</div>
+                                            </div>
+                                            {% if not activity.contactAdmin %}
+                                                <div class="row">
+                                                    <div class="col-md-3 text-right"><b>Prix</b></div>
+                                                    <div class="col-md-9">
+                                                        {% set price = activity.price ~ ' €' %}
+                                                        {% if activity.price < 1 %}
+                                                            {% set price = '<i>Gratuit</i>' %}
+                                                        {% endif %}
+                                                        {% if activity.hiddenPrice and not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                                            Vous devez être <a href="{{ path('fos_user_security_login') }}">connecté</a> pour voir le prix de cette activité.
+                                                        {% else %}
+                                                            {{ price|raw }}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if activity.availableTickets > 0 %}
+                                                <div class="row">
+                                                    <div class="col-md-3 text-right"><b>Places disponibles</b></div>
+                                                    <div class="col-md-9">
+                                                        {{ activity.availableTickets }}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            <div class="row">
+                                                <div class="col-md-10 col-md-offset-1">
+                                                    <a class="btn btn-primary" href="{{ path('ce_activity_homepage') }}"><i class="fa fa-angle-right"></i> En lire plus</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer text-right">Postée le {{ activity.date|date('d M y à H:m') }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                        <p>Aucune activité n'a été postée.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="top">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h2 class="page-header">Actualités</h2>
+                    {% if topNews|length > 0 %}
+                    <div id="top-news" class="carousel slide" data-ride="carousel">
+                        <!-- Wrapper for slides -->
+                        <ol class="carousel-indicators">
+                            {% for post in topNews %}
+                                <li data-target="#top-news" data-slide-to="{{ loop.index0 }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for post in topNews %}
+                                <div class="item {% if loop.index == 1 %}active{% endif %}">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><a href="{{ path('ce_news_post', {'id': post.id }) }}">{{ post.title }}</a></h3>
+                                        </div>
+                                        <div class="panel-body">{{ post.content|truncatehtml(200, '<a class="btn btn-primary" href="' ~ path('ce_news_post', {'id': post.id }) ~ '"><i class="fa fa-angle-right"></i> En lire plus</a>')|raw }}</div>
+                                        <div class="panel-footer text-right">Postée le {{ post.date|date('d M y à H:m') }} par {% if post.user.fullname|length > 1 %}{{ post.user.fullname }}{% else %}{{ post.user.username }}{% endif %}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                        <p>Aucune actualité n'est mise en avant.</p>
+                    {% endif %}
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="page-header">
+                        <div class="row">
+                            <div class="col-md-12 text-left">Annonces <span class="pull-right"><a href="{{ path('ce_announce_homepage') }}" class="btn btn-primary">Poster une annonce</a></span></div>
+                        </div>
+                    </h2>
+                    {% if topAnnounces|length > 0 %}
+                    <div id="top-announces" class="carousel slide" data-ride="carousel">
+                        <!-- Wrapper for slides -->
+                        <ol class="carousel-indicators">
+                            {% for announce in topAnnounces %}
+                                <li data-target="#top-announces" data-slide-to="{{ loop.index0 }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for announce in topAnnounces %}
+                                <div class="item {% if loop.index == 1 %}active{% endif %}">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><a href="{{ path('ce_announce_homepage') }}">{{ announce.title }}</a></h3>
+                                        </div>
+                                        <div class="panel-body">{{ announce.content|truncatehtml(200, '<a class="btn btn-primary" href="' ~ path('ce_announce_homepage') ~ '"><i class="fa fa-angle-right"></i> En lire plus</a>')|raw }}</div>
+                                        <div class="panel-footer text-right">Postée le {{ announce.date|date('d M y à H:m') }} par {% if announce.user.fullname|length > 1 %}{{ announce.user.fullname }}{% else %}{{ announce.user.username }}{% endif %}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                        <p>Aucune annonce n'est mise en avant.</p>
+                    {% endif %}
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="page-header">Activités</h2>
+                    {% if topActivities|length > 0 %}
+                    <div id="top-activities" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for activity in topActivities %}
+                                <li data-target="#top-activities" data-slide-to="{{ loop.index0 }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for activity in topActivities %}
+                                <div class="item {% if loop.index == 1 %}active{% endif %}">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><a href="{{ path('ce_activity_homepage') }}">{{ activity.title }}</a></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-3 text-right"><b>Lieu</b></div>
+                                                <div class="col-md-9">{{ activity.place }}</div>
+                                            </div>
+                                            {% if not activity.contactAdmin %}
+                                                <div class="row">
+                                                    <div class="col-md-3 text-right"><b>Prix</b></div>
+                                                    <div class="col-md-9">
+                                                        {% set price = activity.price ~ ' €' %}
+                                                        {% if activity.price < 1 %}
+                                                            {% set price = '<i>Gratuit</i>' %}
+                                                        {% endif %}
+                                                        {% if activity.hiddenPrice and not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                                            Vous devez être <a href="{{ path('fos_user_security_login') }}">connecté</a> pour voir le prix de cette activité.
+                                                        {% else %}
+                                                            {{ price|raw }}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if activity.availableTickets > 0 %}
+                                                <div class="row">
+                                                    <div class="col-md-3 text-right"><b>Places disponibles</b></div>
+                                                    <div class="col-md-9">
+                                                        {{ activity.availableTickets }}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <a class="btn btn-primary" href="{{ path('ce_activity_homepage') }}"><i class="fa fa-angle-right"></i> En lire plus</a>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer text-right">Postée le {{ activity.date|date('d M y à H:m') }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                        <p>Aucune activité n'est mise en avant.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock body %}

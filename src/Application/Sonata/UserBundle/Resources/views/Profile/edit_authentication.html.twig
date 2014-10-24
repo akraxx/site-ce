@@ -1,0 +1,48 @@
+{% extends "::base.html.twig" %}
+
+{% block title %} - Editer ses informations d'identification{% endblock %} 
+{% set active_page = "Editer ses informations d'identification" %}
+{% block body %}
+    <div class="col-lg-12">
+        <form action="{{ path('sonata_user_profile_edit_authentication') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal" role="form">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Editer ses informations d'identification</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="text-danger">{{ form_errors(form) }}</div>
+                    <div class="form-group">
+                        <label for="{{ form.username.vars.id }}" class="col-sm-4 control-label">{{ form.username.vars.label|trans({}, 'FOSUserBundle') }}</label>
+                        <div class="col-sm-8">
+                            <input type="text" required="required" value="{{ form.username.vars.value }}" name="{{ form.username.vars.full_name }}" class="form-control" id="{{ form.username.vars.id }}" placeholder="{{ form.username.vars.label|trans({}, 'FOSUserBundle') }}">
+                        </div>
+                    </div>
+                    <div class="text-danger">{{ form_errors(form.username) }}</div>
+                    <div class="form-group">
+                        <label for="{{ form.email.vars.id }}" class="col-sm-4 control-label">{{ form.email.vars.label|trans({}, 'FOSUserBundle') }}</label>
+                        <div class="col-sm-8">
+                            <input type="email" required="required" value="{{ form.email.vars.value }}" name="{{ form.email.vars.full_name }}" class="form-control" id="{{ form.email.vars.id }}" placeholder="{{ form.email.vars.label|trans({}, 'FOSUserBundle') }}">
+                        </div>
+                    </div>
+                    <div class="text-danger">{{ form_errors(form.email) }}</div>
+                    <div class="form-group">
+                        <label for="{{ form.current_password.vars.id }}" class="col-sm-4 control-label">{{ form.current_password.vars.label|trans({}, 'FOSUserBundle') }}</label>
+                        <div class="col-sm-8">
+                            <input type="password" required="required" name="{{ form.current_password.vars.full_name }}" class="form-control" id="{{ form.current_password.vars.id }}" placeholder="{{ form.current_password.vars.label|trans({}, 'FOSUserBundle') }}">
+                        </div>
+                    </div>
+                    <div class="text-danger">{{ form_errors(form.current_password) }}</div>
+                    <input type="hidden" name="{{ form._token.vars.full_name }}" class="form-control" id="{{ form._token.vars.id }}" value="{{ form._token.vars.value }}">
+                </div>
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <div class="col-sm-offset-4">
+                            <input type="submit"  name="submit" value="Enregistrer" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock body %}
+

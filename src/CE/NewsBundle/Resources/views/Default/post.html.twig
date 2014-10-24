@@ -1,0 +1,66 @@
+{% extends "::base.html.twig" %}
+
+{% block title %} - Actualités{% endblock %} 
+{% set active_page = 'Les actualités du site' %}
+{% block news_active %}active{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+
+        <h1><a href="{{ path('ce_news_post', {'id': post.id }) }}">{{ post.title }}</a>
+        </h1>
+        <p class="lead">par <span class="text-info"><b>{% if post.user.fullname|length > 1 %}{{ post.user.fullname }}{% else %}{{ post.user.username }}{% endif %}</b></span>
+        </p>
+        <hr>
+        <p class="text-right"><i class="fa fa-clock-o"></i> Postée le {{ post.date|date('d M y à H:m') }} | <a href="#commentaires"><span class="badge">{{ post.comments|length }}</span> commentaires</a></p>
+        {% if post.icone is not null %}
+            <hr>
+            <img src="{% path post.icone, 'icone_news_big' %}" class="img-responsive center-block">
+        {% endif %}
+        <hr>
+
+        <p>{{ post.content|raw }} </p>
+
+        {% if post.activeComments %}
+            <hr id="commentaires">
+            {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <div class="row">
+                <div class="form-group col-lg-12">
+                    <div class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        Vous devez être <a href="{{ path('fos_user_security_login') }}">connecté</a> pour poster une annonce.<br>
+                        Pas encore de compte? <a href="{{ path('fos_user_registration_register') }}">Enregistrez vous ici</a>              
+                    </div>
+                </div>
+            </div>
+            {% else %}    
+            <!-- the comment box -->
+            <div class="well">
+                <h4>Laisser un commentaire :</h4>
+                <form action="{{ path('ce_news_comment_add') }}" {{ form_enctype(form) }} method="POST" role="form">
+                    <div class="form-group">
+                        <div class="text-danger">{{ form_errors(form) }}</div>
+                        <div class="text-danger">{{ form_errors(form.content) }}</div>
+                        <textarea class="form-control" rows="3" id="{{ form.content.vars.id }}" name="{{ form.content.vars.full_name }}">{{ form.content.vars.value }}</textarea>
+                    </div>
+                    <input type="hidden" name="{{ form.post.vars.full_name }}" class="form-control" id="{{ form.post.vars.id }}" value="{{ form.post.vars.value }}">
+                    <input type="hidden" name="{{ form._token.vars.full_name }}" class="form-control" id="{{ form._token.vars.id }}" value="{{ form._token.vars.value }}">
+                    <input type="submit" class="btn btn-primary" value="Commenter">
+                </form>
+            </div>
+            <hr>
+            {% endif %}
+            <!-- the comments -->
+            {% for comment in post.comments|reverse %}
+            <h3>{{ comment.user.username }}
+            <small>{{ comment.date|date('d M y à H:i') }}</small>
+            </h3>
+            <p>{{ comment.content }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {{render(controller("CENewsBundle:Default:rightMenu"))}}
+</div>
+{% endblock %}

@@ -28,9 +28,14 @@ class PostAdmin extends Admin
                 ->add('onTop', null, array('label' => "Mettre en avant", 'required' => false))
                 ->add('content', null, array('label' => "Contenu", 'attr' => array('class' => 'tinymce', 'data-theme' => 'simple')))
                 ->add('icone', 'sonata_type_model_list', array('label' => "Image", 'required' => false), array(
-                    'link_parameters' => array(
-                        'context' => 'icone_news',
-                        'provider'=>'sonata.media.provider.image'
+                'link_parameters' => array(
+                    'context' => 'icone_news',
+                    'provider'=>'sonata.media.provider.image'
+                )))
+                ->add('attachedFile', 'sonata_type_model_list', array('label' => "Pièce jointe", 'required' => false), array(
+                'link_parameters' => array(
+                    'context' => 'news_file',
+                    'provider'=>'sonata.media.provider.file'
                 )))
                 ->end()
                 

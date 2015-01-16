@@ -290,6 +290,13 @@ sonata_media:
             providers:
                 - sonata.media.provider.file
             formats: []
+        news_file:
+            download:
+                strategy: sonata.media.security.connected_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.file
+            formats: []
     cdn:
         server:
             path: /site-ce/web/uploads/media

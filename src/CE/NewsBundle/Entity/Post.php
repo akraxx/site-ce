@@ -84,6 +84,13 @@ class Post
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"all"})
      */
     private $icone;
+
+    /**
+     * @var Media $attachedFile
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media")
+     */
+    private $attachedFile;
     
     /**
 10   * @ORM\OneToMany(targetEntity="CE\NewsBundle\Entity\Comment", mappedBy="post", cascade={"all"})
@@ -190,6 +197,22 @@ class Post
     public function getIcone()
     {
         return $this->icone;
+    }
+
+    /**
+     * @return Media
+     */
+    public function getAttachedFile()
+    {
+        return $this->attachedFile;
+    }
+
+    /**
+     * @param Media $attachedFile
+     */
+    public function setAttachedFile($attachedFile)
+    {
+        $this->attachedFile = $attachedFile;
     }
 
     /**

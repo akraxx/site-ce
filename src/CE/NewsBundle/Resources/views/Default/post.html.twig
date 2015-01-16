@@ -22,6 +22,10 @@
 
         <p>{{ post.content|raw }} </p>
 
+        {% if post.attachedFile %}
+            <a href="{{ path('sonata_media_download', {'id': post.attachedFile|sonata_urlsafeid }) }}" >Télécharger la pièce jointe.</a>
+        {% endif %}
+
         {% if post.activeComments %}
             <hr id="commentaires">
             {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}

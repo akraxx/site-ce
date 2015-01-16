@@ -32,7 +32,7 @@ class ActivityAdmin extends Admin
                         'provider'=>'sonata.media.provider.file'
                 )))
                 ->add('protectedFile', null, array('label' => "Pièce jointe protégée", "required" => false))
-                ->add('comment', null, array('label' => "Commentaire"))
+                ->add('comment', null, array('label' => "Commentaire", 'attr' => array('class' => 'tinymce', 'data-theme' => 'simple')))
                 ->add('active', null, array('label' => "Activé", 'required' => false))
                 ->add('onTop', null, array('label' => "Mettre en avant", 'required' => false))
                 ->setHelps(array(

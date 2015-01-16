@@ -90,9 +90,7 @@ class Activity
      * @Assert\NotBlank(message = "Ce champ ne peut pas être nul")
      * @Assert\Length(
      *      min = "10",
-     *      max = "255",
-     *      minMessage = "Votre commentaire doit faire au moins {{ limit }} caractères",
-     *      maxMessage = "Votre commentaire ne peut pas être plus long que {{ limit }} caractères"
+     *      minMessage = "Votre commentaire doit faire au moins {{ limit }} caractères"
      * )
      * @ORM\Column(name="comment", type="text")
      */

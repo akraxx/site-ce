@@ -6,4 +6,4 @@ ce_report_pagination:
     pattern:  /{id}
     defaults: { _controller: CEReportBundle:Default:page }
     requirements:
-        id:  \d
+        id:  \d+

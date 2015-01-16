@@ -6,7 +6,7 @@ ce_news_pagination:
     pattern:  /{id}
     defaults: { _controller: CENewsBundle:Default:page }
     requirements:
-        id:  \d
+        id:  \d+
         
 ce_news_search:
     pattern:  /recherche
@@ -16,7 +16,7 @@ ce_news_post:
     pattern:  /item/{id}
     defaults: { _controller: CENewsBundle:Default:post }
     requirements:
-        id:  \d
+        id:  \d+
 
 ce_news_comment_add:
     pattern:  /commentaire/ajout

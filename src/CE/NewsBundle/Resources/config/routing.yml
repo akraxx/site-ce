@@ -23,3 +23,4 @@ ce_news_comment_add:
     defaults: { _controller: CENewsBundle:Default:addComment }
     requirements:
         _method:  POST
+        

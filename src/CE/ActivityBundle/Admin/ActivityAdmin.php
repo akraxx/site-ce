@@ -75,7 +75,12 @@ class ActivityAdmin extends Admin
     public function prePersist($activity) {
         $activity->setDate(new \DateTime('now'));
     }
-    
+
+    public function preUpdate($activity) {
+        $activity->setDate(new \DateTime('now'));
+    }
+
+
     public function validate(\Sonata\AdminBundle\Validator\ErrorElement $errorElement, $object) {
 
     }
